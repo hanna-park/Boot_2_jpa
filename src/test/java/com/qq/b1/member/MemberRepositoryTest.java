@@ -14,7 +14,61 @@ class MemberRepositoryTest {
 	@Autowired
 	private MemberRepository memberRepository;
 	
+	@Autowired
+	private MemberFilesRepository memberFilesRepository;
+	
 	@Test
+	void updateTest() {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId("qqq");
+		memberVO.setPw("qq");
+		memberVO.setName("qwq");
+		memberVO.setEmail("qq@c");
+		
+		MemberFilesVO memberFilesVO = new MemberFilesVO();
+		memberFilesVO.setFname("QQQQ.jsp");
+		memberFilesVO.setOname("memba.jsp");
+		
+		memberVO.setMemberFilesVO(memberFilesVO);
+		memberFilesVO.setMemberVO(memberVO);
+		
+		memberRepository.save(memberVO);
+	}
+	
+	
+	//@Test
+	void InsertTest() {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId("qq2112");
+		memberVO.setPw("qq2141");
+		memberVO.setName("qqq22");
+		memberVO.setEmail("qq214124@qq.com");
+		
+		MemberFilesVO memberfilesVO = new MemberFilesVO();
+		memberfilesVO.setMemberVO(memberVO);
+		memberfilesVO.setFname("1241241qq.jpg");
+		memberfilesVO.setOname("1241412wqq.jpg");
+	
+		memberVO.setMemberFilesVO(memberfilesVO);
+		
+		memberRepository.save(memberVO);
+	
+	}
+	
+	
+	//@Test
+	void SelectTest() {
+		Optional<MemberVO> opt = memberRepository.findById("admin");
+		MemberVO memberVO = opt.get();
+		System.out.println(memberVO.getName());
+		System.out.println(memberVO.getEmail());
+		System.out.println(memberVO.getMemberFilesVO().getFname());
+		System.out.println(memberVO.getMemberFilesVO().getMemberVO().getId() );
+		
+	}
+	
+	
+	//@Test
 	void test() throws Exception {
 		//long count = memberRepository.count();
 		//boolean check = memberRepository.existsById("admin");

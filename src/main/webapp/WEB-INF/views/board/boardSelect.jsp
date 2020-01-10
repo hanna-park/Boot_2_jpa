@@ -23,16 +23,21 @@
 
 	<div class="form-group">
       <label for="title">title:</label>
-      ${noticeVO.title}
+      ${vo.title}
     </div>
     
     <div class="form-group">
       <label for="writer">writer:</label>
-      ${noticeVO.writer}
+      ${vo.writer}
     </div>
     
     <div class="form-group">
-      <label for="contents">contents:</label>${noticeVO.contents}
+      <label for="contents">contents:</label>${vo.contents}
+    </div>
+    <div>
+    	<c:forEach items="${vo.noticeFilesVO}" var ="file">
+    		<h3>${file.fname}</h3>
+    	</c:forEach>
     </div>
 
 

@@ -1,4 +1,5 @@
 package com.qq.b1.member;
+import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
@@ -8,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.qq.b1.util.FilePathGenerator;
+import com.qq.b1.util.FileSaver;
 
 @Controller
 @RequestMapping("/member/**")
@@ -17,6 +22,31 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("memberUpdate")
+	public ModelAndView memberUpdate2(MultipartFile files, HttpSession session) throws Exception{
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("membersVO",memberVO);
+		
+		return mv;
+	}
+	
+	
+	@PostMapping("memberUpdate")
+	public void memberUpdate(MemberVO memberVO, MultipartFile files, HttpSession session) throws Exception{
+		MemberVO loginVO = (MemberVO)session.getAttribute("member");
+		
+		memberVO.setMemberFilesVO(loginVO.getMemberFilesVO());
+		
+	}
+	
+	@PostMapping("memberIdCheck")
+	@ResponseBody
+	public boolean memberIdCheck(String id) throws Exception {
+		return memberService.memberIdCheck(id);
+	}
 
 	
 	/*
@@ -112,14 +142,14 @@ public class MemberController {
 		return mv;
 	}
 
-	@GetMapping("myPage")
+	@GetMapping("memberPage")
 	public ModelAndView myPage(MemberFilesVO memberFilesVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<MemberFilesVO> ar = memberService.memberFilesSelect(memberFilesVO);
-	if(ar.size() !=0) {
-		mv.addObject("memberfiles", ar);
-		mv.addObject("path","upload");
-	}
+		if(ar.size() ==0) {
+			mv.addObject("memberfiles", ar);
+			mv.addObject("path","upload");
+		}
 	return mv;
 	}
 

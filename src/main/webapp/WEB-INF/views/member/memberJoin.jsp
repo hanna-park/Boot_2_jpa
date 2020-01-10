@@ -23,14 +23,11 @@
 
 <h1>M e m b e r   J o i n</h1>
 
-<h2>J O I N</h2>
-
 	<form:form action="./memberJoin" method="post" enctype="multipart/form-data" modelAttribute="memberVO">
 	<div class="form-group">
       <!-- path(memberVO의 변수명) = name -->
       <label for="id">ID:</label>
       <form:input path="id" placeholder="Enter id" class="form-control" id="id" />
-     
       <div style="height: 20px;"> <form:errors path="id" cssStyle="color:red; " /> </div>
     </div>
     
@@ -67,6 +64,35 @@
 	</form:form>
 
 </div>
+
+<script type="text/javascript">
+
+	$('#id').blur(function() {
+		var id = $("#id").val();
+		$.ajax({
+			type:"post",
+			url:"./memberIdCheck",
+			data:{
+				id:id
+				},
+			success:function(data){
+				if(data){
+					alert("중복");
+				}else{
+					alert("사용 가능 ID")
+					}
+			
+				}
+			
+
+		});
+		
+	});
+	
+	
+
+
+</script>
 
 
 </body>

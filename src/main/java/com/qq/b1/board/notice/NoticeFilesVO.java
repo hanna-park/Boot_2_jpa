@@ -1,31 +1,29 @@
-package com.qq.b1.member;
+package com.qq.b1.board.notice;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.qq.b1.board.notice.NoticeVO;
 
-@Getter
-@Setter
+import lombok.Data;
+
 @Entity
-@Table(name="memberFiles")
-public class MemberFilesVO {
-
+@Table(name="noticeFiles")
+@Data
+public class NoticeFilesVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fnum;
-	//private String id;
 	private String fname;
 	private String oname;
 	
-	@OneToOne
-	@JoinColumn(name = "id")
-	private MemberVO memberVO;
+	@ManyToOne
+	@JoinColumn(name = "num")
+	private NoticeVO noticeVO;
 	
 }

@@ -12,6 +12,14 @@ class MemberFilesRepositoryTest {
 	private MemberFilesRepository memberFilesRepository;
 	
 	@Test
+	void selectTest() {
+		MemberFilesVO filesVO= memberFilesRepository.findById(1).get();
+		System.out.println(filesVO.getFname());
+		System.out.println(filesVO.getMemberVO().getId());
+	
+	}
+	
+	//@Test
 	void test() {
 		//long count = memberFilesRepository.count();
 		//boolean check =  memberFilesRepository.existsById(1);

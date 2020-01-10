@@ -38,8 +38,31 @@ public class MemberService {
 	}
 	
 	public List<MemberFilesVO> memberFilesSelect(MemberFilesVO memberFilesVO) throws Exception{
-		List<MemberFilesVO> ar = memberFilesRepository.findById(memberFilesVO.getFname());
+		List<MemberFilesVO> ar = null;
+		//memberFilesRepository.findById(memberFilesVO.getFname());
 		return ar;
+	}
+	
+	public boolean memberIdCheck(String id) throws Exception{
+		return memberRepository.existsById(id);
+	}
+	
+	public void memberUpdate(MemberVO memberVO, MultipartFile files) throws Exception{
+		
+		if(files.getSize()>0) {
+			File file = filePathGenerator.getUseClassPathResource("upload");
+			String fileName = fileSaver.save(file,files);
+			MemberFilesVO memberFilesVO = memberVO.getMemberFilesVO();
+			memberVO.getMemberFilesVO().setFname(fileName);
+			memberVO.getMemberFilesVO().setOname(files.getOriginalFilename());
+			
+			memberVO.setMemberFilesVO(memberFilesVO);
+			memberFilesVO.setMemberVO(memberVO);
+		}else {
+			memberVO.setMemberFilesVO(null);
+		}
+		
+		memberRepository.save(memberVO);
 	}
 	
 	public Boolean idCheck(MemberVO memberVO) throws Exception {
@@ -54,14 +77,14 @@ public class MemberService {
 			String filename = fileSaver.save(file, files);
 			
 			MemberFilesVO memberFilesVO = new MemberFilesVO();
-			memberFilesVO.setId(memberVO.getId());
+			memberFilesVO.setMemberVO(memberVO);
 			memberFilesVO.setFname(filename);
 			memberFilesVO.setOname(files.getOriginalFilename());
 			
 			memberFilesVO = memberFilesRepository.save(memberFilesVO);
 			
-			return memberFilesRepository.existsById(memberVO.getId());
-			
+			//return memberFilesRepository.existsById(memberVO.getId());
+			return true;
 		} else {
 			return false;
 		}
@@ -69,8 +92,9 @@ public class MemberService {
 	}
 	
 	public MemberFilesVO memberFileSelect (MemberVO memberVO) throws Exception {
-		List<MemberFilesVO> ar = memberFilesRepository.findById(memberVO.getId());
-		return ar.get(0);
+		//List<MemberFilesVO> ar = memberFilesRepository.findById(memberVO.getId());
+		//return ar.get(0);
+		return new MemberFilesVO();
 	}
 	
 	

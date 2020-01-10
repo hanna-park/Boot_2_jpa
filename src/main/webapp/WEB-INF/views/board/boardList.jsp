@@ -14,9 +14,9 @@
 
 <div class="container"> 
 <h1>N O T I C E</h1>
-
+		<a class="C" href="noticeWrite"> write</a><br>
 		<div>
-			<form action="./noticeList" id="frm">
+			<form action="./${board}List" id="frm">
 				<input type="hidden" value="1" name="curPage" id="curPage">
 			
 				<select name="kind">				
@@ -37,15 +37,21 @@
 			<td>writer</td>
 			<td>DATE</td>
 			<td>HIT</td>
+			<!-- <td>
+				file
+			</td> -->
 		</tr>
 		
-		<c:forEach items="${list}" var ="vo">
+		<c:forEach items="${list.pageList.content}" var="vo">
 			<tr>
 				<td>${vo.num}</td>
-				<td><a href="./noticeSelect?num=${vo.num}"> ${vo.title}</a></td>
+				<td><a href="./${board}Select?num=${vo.num}"> ${vo.title}</a></td>
 				<td>${vo.writer}</td>
 				<td>${vo.regDate}</td>
 				<td>${vo.hit}</td>
+<%-- 				<td>
+				<c:forEach items="${vo.noticeFilesVO}" var="f">${fname}</c:forEach>
+				</td> --%>
 			</tr>
 		</c:forEach>	
 	</table>
@@ -68,7 +74,7 @@
 				</ul>
 			</div>
 			
-			<a class="C" href="noticeWrite"> write</a><br>
+			
 	
 	
 	<script type="text/javascript">
